@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    body {
+      background-color: rgb(252, 240, 240);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .container {
+      margin: auto;
+      margin-bottom: 10px;
+      max-width: 700px;
+      overflow: auto;
+      padding: 0 20px;
+      background-color: white;
+    }
+
+    .container h1 {
+      font-size: 35px;
+      text-align: center;
+    }
+
+    .btn {
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .btn-yes {
+      background-color:#4CAF50;
+      width: 49.5%;
+    }
+
+    .btn-yes:hover {
+      background-color: rgb(69, 158, 72);
+    }
+
+    .btn-yes:disabled {
+      box-shadow: inset 0 0 0 5px rgb(9, 112, 0);
+    }
+
+    .btn-no {
+      background-color: #f44336;
+      width: 49.5%
+    }
+
+    .btn-no:hover {
+      background-color: #d83a2f;
+    }
+
+    .btn-no:disabled {
+      box-shadow: inset 0 0 0 5px #912821;
+    }
+
+    #results {
+      text-align: center;
+      font-weight: bold;
+      font-size: 35px;
+    }
+
+    .warning {
+      color: red;
+    }
+
+    #main-footer {
+      text-align: center;
+      background-color: rgb(255, 210, 210);
+      color: black;
+      padding: 10px;
+      font-size: 25px;
+    }
+
+    @media (max-width: 650px) {
+      .btn-yes {
+        width: 49%;
+      }
+
+      .btn-no {
+        width: 49%;
+      }
+
+      .container h1 {
+        font-size: 25px;
+      }
+
+      #results {
+        font-size: 25px;
+      }
+
+      #main-footer {
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 345px) {
+      .btn-yes {
+        width: 48%;
+      }
+
+      .btn-no {
+        width: 48%;
+      }
+    }
+  </style>
+  <title>Оценка риска общественно опасного поведения лиц с психическими расстройствами</title>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Оценка риска общественно опасного поведения лиц с психическими расстройствами</h1>
+
+    <p>1. Выраженные нарушения поведения?</p>
+    <button class="btn btn-yes" id="q1y" onclick="addScore(12, 'q1y', 'q1n')">Да</button>
+    <button class="btn btn-no" id="q1n" onclick="noScore(12, 'q1n', 'q1y')">Нет</button>
+
+    <p>2. Выраженные эмоциональные нарушения при недостаточности волевого контроля и аффективной переключаемости?</p>
+    <button class="btn btn-yes" id="q2y" onclick="addScore(8, 'q2y', 'q2n')">Да</button>
+    <button class="btn btn-no" id="q2n" onclick="noScore(8, 'q2n', 'q2y')">Нет</button>
+
+    <p>3. Выраженная прогредиентность психического расстройства с антисоциальными и/или аутоагрессивными тенденциями и снижением контроля над поведением?</p>
+    <button class="btn btn-yes" id="q3y" onclick="addScore(10, 'q3y', 'q3n')">Да</button>
+    <button class="btn btn-no" id="q3n" onclick="noScore(10, 'q3n', 'q3y')">Нет</button>
+
+    <p>4. Продуктивная психотическая симптоматика?</p>
+    <button class="btn btn-yes" id="q4y" onclick="addScore(4, 'q4y', 'q4n')">Да</button>
+    <button class="btn btn-no" id="q4n" onclick="noScore(4, 'q4n', 'q4y')">Нет</button>
+
+    <p>5. Противоправные действия, привлечение к уголовной ответственности в прошлом</p>
+    <button class="btn btn-yes" id="q5y" onclick="addScore(12, 'q5y', 'q5n')">Да</button>
+    <button class="btn btn-no" id="q5n" onclick="noScore(12, 'q5n', 'q5y')">Нет</button>
+
+    <p>6. Материальная, жилищная необеспеченность и связанная с ней невозможность удовлетворения личных физических, духовных и иных потребностей</p>
+    <button class="btn btn-yes" id="q6y" onclick="addScore(11, 'q6y', 'q6n')">Да</button>
+    <button class="btn btn-no" id="q6n" onclick="noScore(11, 'q6n', 'q6y')">Нет</button>
+
+    <p>7. Зависимость или злоупотребление алкоголем, иными ПАВ</p>
+    <button class="btn btn-yes" id="q7y" onclick="addScore(7, 'q7y', 'q7n')">Да</button>
+    <button class="btn btn-no" id="q7n" onclick="noScore(7, 'q7n', 'q7y')">Нет</button>
+
+    <p>8. Зависимость или злоупотребление алкоголем, иными ПАВ в сочетании с неоднократно перенесенными травмами головы</p>
+    <button class="btn btn-yes" id="q8y" onclick="addScore(9, 'q8y', 'q8n')">Да</button>
+    <button class="btn btn-no" id="q8n" onclick="noScore(9, 'q8n', 'q8y')">Нет</button>
+
+    <p>9. Приверженность лечению</p>
+    <button class="btn btn-yes" id="q9y" onclick="addScore(-6, 'q9y', 'q9n')">Да</button>
+    <button class="btn btn-no" id="q9n" onclick="noScore(-6, 'q9n', 'q9y')">Нет</button>
+
+    <p>10. Антисоциальная структура личности в преморбиде</p>
+    <button class="btn btn-yes" id="q10y" onclick="addScore(6, 'q10y', 'q10n')">Да</button>
+    <button class="btn btn-no" id="q10n" onclick="noScore(6, 'q10n', 'q10y')">Нет</button>
+
+    <p>11. Расстройства поведения в детском (подростковом) возрасте</p>
+    <button class="btn btn-yes" id="q11y" onclick="addScore(5, 'q11y', 'q11n')">Да</button>
+    <button class="btn btn-no" id="q11n" onclick="noScore(5, 'q11n', 'q11y')">Нет</button>
+
+    <p>12. Неоднократное физическое или сексуальное насилие в детском (подростковом) возрасте</p>
+    <button class="btn btn-yes" id="q12y" onclick="addScore(6, 'q12y', 'q12n')">Да</button>
+    <button class="btn btn-no" id="q12n" onclick="noScore(6, 'q12n', 'q12y')">Нет</button>
+
+    <p>13. Враждебные, конфликтные, эмоционально холодные, безразличные взаимоотношения с обоими родителями в детстве</p>
+    <button class="btn btn-yes" id="q13y" onclick="addScore(3, 'q13y', 'q13n')">Да</button>
+    <button class="btn btn-no" id="q13n" onclick="noScore(3, 'q13n', 'q13y')">Нет</button>
+
+    <p>14. Возраст 20–39 лет</p>
+    <button class="btn btn-yes" id="q14y" onclick="addScore(6, 'q14y', 'q14n')">Да</button>
+    <button class="btn btn-no" id="q14n" onclick="noScore(6, 'q14n', 'q14y')">Нет</button>
+
+    <p>15. Возраст 60 лет и старше</p>
+    <button class="btn btn-yes" id="q15y" onclick="addScore(-6, 'q15y', 'q15n')">Да</button>
+    <button class="btn btn-no" id="q15n" onclick="noScore(-6, 'q15n', 'q15y')">Нет</button>
+
+    <p>16. Конфликтные взаимоотношения в семье и/или антисоциальное окружение</p>
+    <button class="btn btn-yes" id="q16y" onclick="addScore(6, 'q16y', 'q16n')">Да</button>
+    <button class="btn btn-no" id="q16n" onclick="noScore(6, 'q16n', 'q16y')">Нет</button>
+
+    <p>17. Наличие помощи и поддержки родных, близких</p>
+    <button class="btn btn-yes" id="q17y" onclick="addScore(-3, 'q17y', 'q17n')">Да</button>
+    <button class="btn btn-no" id="q17n" onclick="noScore(-3, 'q17n', 'q17y')">Нет</button>
+
+    <p>18. Наличие более двух экзогенно-органических вредностей в анамнезе</p>
+    <button class="btn btn-yes" id="q18y" onclick="addScore(4, 'q18y', 'q18n')">Да</button>
+    <button class="btn btn-no" id="q18n" onclick="noScore(4, 'q18n', 'q18y')">Нет</button>
+
+    <p>19. Трудовая занятость связана с выполнением квалифицированного труда</p>
+    <button class="btn btn-yes" id="q19y" onclick="addScore(-2, 'q19y', 'q19n')">Да</button>
+    <button class="btn btn-no" id="q19n" onclick="noScore(-2, 'q19n', 'q19y')">Нет</button>
+
+    <p>20. Низкий образовательный уровень</p>
+    <button class="btn btn-yes" id="q20y" onclick="addScore(1, 'q20y', 'q20n')">Да</button>
+    <button class="btn btn-no" id="q20n" onclick="noScore(1, 'q20n', 'q20y')">Нет</button>
+
+    <p>21. Стабильная трудовая занятость на протяжении всей жизни</p>
+    <button class="btn btn-yes" id="q21y" onclick="addScore(-2, 'q21y', 'q21n')">Да</button>
+    <button class="btn btn-no" id="q21n" onclick="noScore(-2, 'q21n', 'q21y')">Нет</button>
+
+    <p>22. Асоциальность (отсутствует трудовой стаж, не работает, не учится)</p>
+    <button class="btn btn-yes" id="q22y" onclick="addScore(4, 'q22y', 'q22n')">Да</button>
+    <button class="btn btn-no" id="q22n" onclick="noScore(4, 'q22n', 'q22y')">Нет</button>
+
+    <p class="warning" id="alcohol-warning"></p>
+    <p class="warning" id="age-warning"></p>
+    <p class="warning" id="social-warning"></p>
+    <p id="results">Для вычисления суммарной оценки риска необходимо ответить на все вопросы.</p>
+  </div>
+  <footer id="main-footer">
+      <p>M. Marfina &copy; 2019, All Rights Reserved</p>
+  </footer>
+
+  <script>
+    var sumScore = 0;
+    var questionsNum = 22;
+    var questionsAnswered = 0;
+    var firstAlcoholAnswerYes = false;
+    var secondAlcoholAnswerYes = false;
+    var firstAgeAnswerYes = false;
+    var secondAgeAnswerYes = false;
+    var firstSocialAnswerYes = false;
+    var secondSocialAnswerYes = false;
+
+    function addScore (score, yesBtnId, noBtnId) {
+      var yesBtn = document.getElementById(yesBtnId);
+      var noBtn = document.getElementById(noBtnId);
+
+      if (!noBtn.disabled) {
+        questionsAnswered++;
+      }
+
+      sumScore += score;
+
+      yesBtn.setAttribute("disabled", "disabled");
+      noBtn.removeAttribute("disabled");
+
+      if (questionsAnswered === questionsNum) {
+        showResults();
+      }
+
+      if (yesBtnId === ('q7y')) {
+        firstAlcoholAnswerYes = true;
+      }
+      if (yesBtnId === ('q8y')) {
+        secondAlcoholAnswerYes = true;
+      }
+      if (yesBtnId === ('q14y')) {
+        firstAgeAnswerYes = true;
+      }
+      if (yesBtnId === ('q15y')) {
+        secondAgeAnswerYes = true;
+      }
+      if (yesBtnId === ('q21y')) {
+        firstSocialAnswerYes = true;
+      }
+      if (yesBtnId === ('q22y')) {
+        secondSocialAnswerYes = true;
+      }
+
+      checkWarnings();
+    }
+
+    function noScore (score, noBtnId, yesBtnId) {
+      var yesBtn = document.getElementById(yesBtnId);
+      var noBtn = document.getElementById(noBtnId);
+      
+      if (yesBtn.disabled) {
+        sumScore -= score;
+        yesBtn.removeAttribute("disabled");
+
+        if (yesBtnId === ('q7y')) {
+          firstAlcoholAnswerYes = false;
+        }
+        if (yesBtnId === ('q8y')) {
+          secondAlcoholAnswerYes = false;
+        }
+        if (yesBtnId === ('q14y')) {
+          firstAgeAnswerYes = false;
+        }
+        if (yesBtnId === ('q15y')) {
+          secondAgeAnswerYes = false;
+        }
+        if (yesBtnId === ('q21y')) {
+          firstSocialAnswerYes = false;
+        }
+        if (yesBtnId === ('q22y')) {
+          secondSocialAnswerYes = false;
+        }
+      } else {
+        questionsAnswered++;
+      }
+
+      noBtn.setAttribute("disabled", "disabled");
+
+      if (questionsAnswered === questionsNum) {
+        showResults();
+      }
+
+      checkWarnings();
+    }
+
+    function checkWarnings() {
+      var alcoholErrorPar = document.getElementById("alcohol-warning");
+      var ageErrorPar = document.getElementById("age-warning");
+      var socialErrorPar = document.getElementById("social-warning");
+
+      var resPar = document.getElementById("results");
+
+      if (firstAlcoholAnswerYes && secondAlcoholAnswerYes) {
+        alcoholErrorPar.innerHTML = 'Противоречие в вопросах 7 и 8. Если у пациента зависимость или злоупотребление алкоголем, иными ПАВ <strong> в сочетании </strong> с неоднократно перенесенными травмами головы, то на вопрос 7 нужно ответить <strong>НЕТ</strong>';
+        resPar.innerHTML = 'Для вычисления суммарной оценки риска необходимо ответить на все вопросы.';
+      } else {
+        alcoholErrorPar.innerHTML = '';
+        showResults();
+      }
+      if (firstAgeAnswerYes && secondAgeAnswerYes) {
+        ageErrorPar.innerHTML = 'Противоречие в вопросах 14 и 15. Пациенту не может быть одновременно 20 - 39 и больше 60 лет.';
+        resPar.innerHTML = 'Для вычисления суммарной оценки риска необходимо ответить на все вопросы.';
+      } else {
+        ageErrorPar.innerHTML = '';
+        showResults();
+      }
+      if (firstSocialAnswerYes && secondSocialAnswerYes) {
+        socialErrorPar.innerHTML = 'Противоречие в вопросах 21 и 22. Пациент не может вести стабильную трудовую деятельность и быть асоциален.';
+        resPar.innerHTML = 'Для вычисления суммарной оценки риска необходимо ответить на все вопросы.';
+      } else {
+        socialErrorPar.innerHTML = '';
+        showResults();
+      }
+    }
+
+    function showResults() {
+      var resPar = document.getElementById("results");
+      if ((questionsAnswered === questionsNum) && 
+      !(firstAlcoholAnswerYes && secondAlcoholAnswerYes) && 
+      !(firstAgeAnswerYes && secondAgeAnswerYes) && 
+      !(firstSocialAnswerYes && secondSocialAnswerYes)) {
+        resPar.innerHTML = 'Суммарная оценка риска: ' + sumScore;
+      }
+    }
+  </script>
+
+</body>
+</html>
